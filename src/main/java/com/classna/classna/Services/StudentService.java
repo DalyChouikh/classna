@@ -3,6 +3,8 @@ package com.classna.classna.Services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,14 @@ public class StudentService {
             throw new IllegalStateException("Student already exists with that Email and Username!");
         }
         studentRepository.save(student);
+    }
+    
+    @Transactional
+    public void deleteStudent(String username){
+        Student  student = studentRepository.findStudentByUsername(username).orElseThrow(() -> new IllegalStateException("Student doesn't exist"));
+        studentRepository.deleteById(student.getId());
+        
+        
     }
 
 

@@ -4,6 +4,7 @@ package com.classna.classna.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,7 +57,18 @@ public class StudentController {
             return ResponseHandler.generateResponse("Student added successfully", HttpStatus.OK, student);
         }
         catch(Exception e){
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS,null);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.BAD_REQUEST,null);
+        }
+    }
+    
+    @DeleteMapping(value = "delete/{username}")
+    public ResponseEntity<Object> deleteStudent(@PathVariable String username){
+        try{
+            studentService.deleteStudent(username);
+            return ResponseHandler.generateResponse("Successfully deleted student", HttpStatus.OK, studentService.getStudents() );
+        }
+        catch(Exception e){
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND,null);
         }
     }
     
