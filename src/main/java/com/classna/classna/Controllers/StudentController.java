@@ -71,7 +71,17 @@ public class StudentController {
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND,null);
         }
     }
-    
+
+    @PostMapping(value = "/update")
+    public ResponseEntity<Object> updateStudent(@RequestBody Student student){
+                try{
+                    studentService.updateStudent(student);
+                    return ResponseHandler.generateResponse("Successfully updated student", HttpStatus.OK, studentService.getStudent(student.getUsername()));
+                }
+                catch(Exception e){
+                    return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, studentService.getStudent(student.getUsername()));
+                }
+            }
 
 
 }

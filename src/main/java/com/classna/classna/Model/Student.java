@@ -4,17 +4,66 @@ package com.classna.classna.Model;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(
+    name = "students",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "student_email_constraint", columnNames = "email"),
+        @UniqueConstraint(name = "student_username_constraint", columnNames = "username")
+    }
+)
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+        name = "student_sequence",
+        sequenceName = "student_sequence",
+        allocationSize = 1
+    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
+    @Column(
+        name = "id",
+        updatable = false
+    )
     private Long id;
+    
+    @Column(
+        name = "username",
+        nullable = false,
+        columnDefinition = "TEXT"
+    )
     private String username;
+    
+    @Column(
+        name = "password",
+        nullable = false,
+        columnDefinition = "TEXT"
+    )
     private String password;
+    
+    @Column(
+        name = "email",
+        nullable = false,
+        columnDefinition = "TEXT"
+    )
     private String email;
+    
+    @Column(
+        name = "first_Name",
+        columnDefinition = "TEXT"
+    )
     private String firstName;
+
+    @Column(
+        name = "last_Name",
+        columnDefinition = "TEXT"
+    )
     private String lastName;
     
+    @Column(
+        name = "token",
+        columnDefinition = "TEXT"
+    )
+    private int token;
+
     public Student() {}
 
     public Student(String username, String password, String email, String firstName, String lastName) {
@@ -23,6 +72,7 @@ public class Student {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.token = this.hashCode();
     }
 
     public Long getId() {
@@ -72,6 +122,12 @@ public class Student {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public int getToken(){
+        return token;
+    }
+
+    
 
     @Override
     public int hashCode() {
@@ -131,7 +187,7 @@ public class Student {
     @Override
     public String toString() {
         return "Student [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-                + ", firstName=" + firstName + ", lastName=" + lastName + "]";
+                + ", firstName=" + firstName + ", lastName=" + lastName + ", token=" + token + "]";
     }
 
     
