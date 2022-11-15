@@ -79,7 +79,7 @@ public class StudentController {
                     return ResponseHandler.generateResponse("Successfully updated student", HttpStatus.OK, studentService.getStudent(student.getUsername()));
                 }
                 catch(Exception e){
-                    return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, studentService.getStudent(student.getUsername()));
+                    return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, studentService.getStudent(student.getUsername()));
                 }
             }
 
