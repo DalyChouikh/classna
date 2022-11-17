@@ -11,7 +11,6 @@ export function LoginForm(props){
 
     const handleClick=(e) => {
         e.preventDefault();
-        const student={username, password }
         fetch(`http://localhost:8080/api/v1/students/${username}`,{
             method: "GET",
             headers: {
